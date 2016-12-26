@@ -1,0 +1,2 @@
+# PullRecyclerView
+将RecycleView和SwipeRefreshLayout封装成为一个支持下拉刷新和上拉加载更多的控件PullRecyclerView，并提供更容易使用的Adapter和ViewHolder，代码量少，独立性强，简单实用。
