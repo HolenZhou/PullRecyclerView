@@ -3,4 +3,14 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+    <color name="line_color">#dddddd</color>
+
+    <color name="green">#39b54a</color>
+
+    <color name="grey">#888888</color> <!-- 灰色 -->
+    <color name="white">#ffffff</color>
+    <color name="black">#333333</color>
+    <color name="gray_background">#e9e9f1</color>
+    <color name="transparent">#00ffffff</color>
 </resources>

@@ -28,7 +28,7 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseVi
     private boolean mHeadAndEmptyEnable = false;
     private boolean mEmptyEnable = false;
     protected int mLayoutResId;
-    private Context mContext;
+    protected Context mContext;
     protected List<T> mData;
     private LayoutInflater mLayoutInflater;
     private OnRecyclerItemClickListener onRecyclerItemClickListener;

@@ -9,9 +9,10 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_margin="10dp"
-        android:textColor="@android:color/darker_gray"
         android:ellipsize="end"
         android:maxLines="1"
+        android:text="@string/load_done_tip"
+        android:textColor="@android:color/darker_gray"
         android:textSize="13dp" />
 
 </LinearLayout>

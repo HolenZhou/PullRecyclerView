@@ -2,10 +2,11 @@ package com.holenzhou.pullrecyclerview;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.support.annotation.AttrRes;
+import android.support.annotation.ColorRes;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -53,9 +54,6 @@ public class PullRecyclerView extends FrameLayout implements SwipeRefreshLayout.
 
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_widget);
         swipeRefreshLayout.setOnRefreshListener(this);
-
-        // default refresh circle color is same as the accent color
-        swipeRefreshLayout.setColorSchemeResources(fetchAccentColor());
         swipeRefreshLayout.setEnabled(true);
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
 
@@ -87,15 +85,13 @@ public class PullRecyclerView extends FrameLayout implements SwipeRefreshLayout.
         });
     }
 
-    private int fetchAccentColor() {
-        TypedValue typedValue = new TypedValue();
-
-        TypedArray a = getContext().obtainStyledAttributes(typedValue.data, new int[] { R.attr.colorAccent });
-        int color = a.getColor(0, 0);
-
-        a.recycle();
-
-        return color;
+    public static int resolveColor(Context context, @AttrRes int attr, int fallback) {
+        TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{attr});
+        try {
+            return a.getColor(0, fallback);
+        } finally {
+            a.recycle();
+        }
     }
 
     public void setOnScrollListener(RecyclerView.OnScrollListener l) {
@@ -192,10 +188,10 @@ public class PullRecyclerView extends FrameLayout implements SwipeRefreshLayout.
 
     /**
      * set the pull refresh circle color
-     * @param colorSchemeResources
+     * @param colorResIds
      */
-    public void setColorSchemeResources(int colorSchemeResources) {
-        swipeRefreshLayout.setColorSchemeResources(colorSchemeResources);
+    public void setColorSchemeResources(@ColorRes int... colorResIds) {
+        swipeRefreshLayout.setColorSchemeResources(colorResIds);
     }
 
     public void onRefreshComplete(int action) {
@@ -245,6 +241,10 @@ public class PullRecyclerView extends FrameLayout implements SwipeRefreshLayout.
         adapter.addHeaderView(header);
     }
 
+    public void addHeaderView(int headerRes) {
+        adapter.addHeaderView(LayoutInflater.from(getContext()).inflate(headerRes, this, false));
+    }
+
     public void enableLoadDoneTip(boolean enable, int tip) {
         isShowLoadDoneTipEnable = enable;
         adapter.setLoadDoneTip(tip);
@@ -259,8 +259,29 @@ public class PullRecyclerView extends FrameLayout implements SwipeRefreshLayout.
         adapter.addFooterView(footer);
     }
 
+    public void addFooterView(int footerRes) {
+        isLoadMoreEnable = false;
+        adapter.addFooterView(LayoutInflater.from(getContext()).inflate(footerRes, this, false));
+    }
+
     public void removeFooterView() {
         adapter.removeFooterView();
+    }
+
+    public void setEmptyView(View emptyView) {
+        setEmptyView(false, emptyView);
+    }
+
+    public void setEmptyView(int emptyViewRes) {
+        setEmptyView(false, emptyViewRes);
+    }
+
+    public void setEmptyView(boolean isHeadAndEmpty, View emptyView) {
+        adapter.setEmptyView(isHeadAndEmpty, emptyView);
+    }
+
+    public void setEmptyView(boolean isHeadAndEmpty, int emptyViewRes) {
+        adapter.setEmptyView(isHeadAndEmpty, LayoutInflater.from(getContext()).inflate(emptyViewRes, this, false));
     }
 
     public void setSelection(int position) {

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
@@ -8,10 +8,22 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:orientation="vertical"
     tools:context="com.holenzhou.demo.MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!" />
-</RelativeLayout>
+    <Button
+        android:id="@+id/btn_common_list"
+        style="@style/HomeButton"
+        android:text="最基本的下拉刷新和上拉加载列表" />
+
+    <Button
+        android:id="@+id/btn_header_list"
+        style="@style/HomeButton"
+        android:text="包含header的列表" />
+
+    <Button
+        android:id="@+id/btn_empty_list"
+        style="@style/HomeButton"
+        android:text="可设置显示空页面的空列表" />
+
+</LinearLayout>
