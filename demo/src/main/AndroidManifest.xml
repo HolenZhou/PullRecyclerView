@@ -25,6 +25,9 @@
 
         <activity android:name=".GridListActivity"
             android:screenOrientation="portrait"/>
+
+        <activity android:name=".FooterListActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

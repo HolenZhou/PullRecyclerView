@@ -1,18 +1,12 @@
 package com.holenzhou.demo;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
 import com.holenzhou.pullrecyclerview.BaseRecyclerAdapter;
-import com.holenzhou.pullrecyclerview.BaseViewHolder;
 import com.holenzhou.pullrecyclerview.PullRecyclerView;
 import com.holenzhou.pullrecyclerview.layoutmanager.XLinearLayoutManager;
 
@@ -113,28 +107,5 @@ public class CommonListActivity extends BaseActivity {
                 return true;
             }
         });
-    }
-
-    class CommonListAdapter extends BaseRecyclerAdapter<CheesesItem> {
-
-        public CommonListAdapter(Context context, int layoutResId, List<CheesesItem> data) {
-            super(context, layoutResId, data);
-        }
-
-        @Override
-        protected void convert(BaseViewHolder holder, final CheesesItem item) {
-            ImageView avatarView = holder.getView(R.id.avatar);
-            Glide.with(mContext)
-                    .load(item.avatar)
-                    .fitCenter()
-                    .into(avatarView);
-            holder.setText(android.R.id.text1, item.name);
-            holder.getView().setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Snackbar.make(mPullRecyclerView, item.name, Snackbar.LENGTH_SHORT).show();
-                }
-            });
-        }
     }
 }

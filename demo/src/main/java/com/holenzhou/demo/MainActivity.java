@@ -16,7 +16,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         findViewById(R.id.btn_common_list).setOnClickListener(this);
         findViewById(R.id.btn_empty_list).setOnClickListener(this);
-        findViewById(R.id.btn_empty_list).setOnClickListener(this);
+        findViewById(R.id.btn_footer_list).setOnClickListener(this);
         findViewById(R.id.btn_grid_list).setOnClickListener(this);
     }
 
@@ -36,6 +36,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 intent = new Intent(this, EmptyListActivity.class);
                 break;
             case R.id.btn_footer_list:
+                intent = new Intent(this, FooterListActivity.class);
                 break;
             case R.id.btn_grid_list:
                 intent = new Intent(this, GridListActivity.class);

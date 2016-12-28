@@ -67,7 +67,7 @@ public class EmptyListActivity extends BaseActivity {
             public void onLoadMore() {
             }
         });
-        mPullRecyclerView.postRefreshing();
+        mPullRecyclerView.autoRefresh();
     }
 
     @Override

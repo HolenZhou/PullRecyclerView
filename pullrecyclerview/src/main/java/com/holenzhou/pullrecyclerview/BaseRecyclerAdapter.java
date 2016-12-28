@@ -34,7 +34,6 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseVi
     private OnRecyclerItemLongClickListener onRecyclerItemLongClickListener;
     private View mHeaderView;
     private View mFooterView;
-    private boolean mHasFooterView = false;
     private OnLoadMoreListener loadMoreListener;
     private View mEmptyView;
     private int loadDoneTip;
@@ -46,16 +45,6 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseVi
         if (layoutResId != 0) {
             this.mLayoutResId = layoutResId;
         }
-    }
-
-    public BaseRecyclerAdapter(Context context, int layoutResId, List<T> data, boolean hasFooterView) {
-        mData = data;
-        mContext = context;
-        mLayoutInflater = LayoutInflater.from(context);
-        if (layoutResId != 0) {
-            this.mLayoutResId = layoutResId;
-        }
-        mHasFooterView = hasFooterView;
     }
 
     @Override
@@ -154,7 +143,7 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseVi
         if (isShowLoadDoneTip && (position == getCount() + getHeaderViewsCount())) {
             return VIEW_TYPE_LOAD_DONE;
         }
-        if (mHasFooterView && (position == getCount() + getHeaderViewsCount())) {
+        if (mFooterView != null && (position == getCount() + getHeaderViewsCount())) {
             return VIEW_TYPE_FOOTER;
         }
         if (mEmptyView != null && getItemCount() == (mHeadAndEmptyEnable ? 2 : 1) && mEmptyEnable) {
@@ -189,7 +178,7 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseVi
         }
     }
 
-    public void showLoadDoneTip (boolean isShow) {
+    public void showLoadDoneTip(boolean isShow) {
         isShowLoadDoneTip = isShow;
 //        Timber.d("isShowLoadDoneTip: " + isShow);
         try {
