@@ -45,7 +45,6 @@ public class CommonListActivity extends AppCompatActivity {
         mPullRecyclerView.addItemDecoration(itemDecoration);
 
         mPullRecyclerView.enablePullRefresh(true); // 开启下拉刷新，默认即为true，可不用设置
-        mPullRecyclerView.enableLoadMore(true); // 开启上拉加载更多，默认为false
         mPullRecyclerView.enableLoadDoneTip(true, R.string.load_done_tip); // 开启数据全部加载完成时的底部提示，默认为false
         mPullRecyclerView.setOnRecyclerRefreshListener(new PullRecyclerView.OnRecyclerRefreshListener() {
             @Override
@@ -60,7 +59,7 @@ public class CommonListActivity extends AppCompatActivity {
                         // 或者直接使用BaseRecyclerAdapter中封装的方法
                         //mAdapter.replaceAll(mDataList);
                         mPullRecyclerView.stopRefresh();
-                        mPullRecyclerView.enableLoadMore(pageSize > 0);
+                        mPullRecyclerView.enableLoadMore(pageSize > 0); // 当剩余还有大于0页的数据时，开启上拉加载更多
                     }
                 }, 1500);
             }

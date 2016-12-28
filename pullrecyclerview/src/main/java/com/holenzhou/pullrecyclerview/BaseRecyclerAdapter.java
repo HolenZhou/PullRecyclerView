@@ -81,6 +81,11 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseVi
                 viewHolder = new BaseViewHolder(mFooterView);
                 break;
             case VIEW_TYPE_EMPTY_VIEW:
+                if (mHeadAndEmptyEnable) {
+                    ViewGroup.LayoutParams layoutParams = mEmptyView.getLayoutParams();
+                    int emptyHeight = parent.getHeight() - mHeaderView.getHeight();
+                    layoutParams.height = emptyHeight;
+                }
                 viewHolder = new BaseViewHolder(mEmptyView);
                 break;
             default:

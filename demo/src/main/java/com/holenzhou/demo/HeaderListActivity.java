@@ -48,7 +48,6 @@ public class HeaderListActivity extends AppCompatActivity {
         mPullRecyclerView.addHeaderView(R.layout.layout_list_header);
         mPullRecyclerView.setEmptyView(true, R.layout.layout_empty_view);
 
-        mPullRecyclerView.enableLoadMore(true); // 开启上拉加载更多，默认为false
         mPullRecyclerView.setOnRecyclerRefreshListener(new PullRecyclerView.OnRecyclerRefreshListener() {
             @Override
             public void onPullRefresh() {
@@ -62,6 +61,7 @@ public class HeaderListActivity extends AppCompatActivity {
                         // 或者直接使用BaseRecyclerAdapter中封装的方法
                         //mAdapter.replaceAll(mDataList);
                         mPullRecyclerView.stopRefresh();
+                        mPullRecyclerView.enableLoadMore(false);
 //                        mPullRecyclerView.enableLoadMore(pageSize > 0);
                     }
                 }, 1500);
@@ -69,21 +69,21 @@ public class HeaderListActivity extends AppCompatActivity {
 
             @Override
             public void onLoadMore() {
-                pageSize--;
-                // 模拟上拉加载更多网络请求
-                mPullRecyclerView.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        mDataList.addAll(Cheeses.getRandomSubList(30));
-                        mAdapter.notifyDataSetChanged();
-                        // 或者直接使用BaseRecyclerAdapter中封装的方法
-                        //mAdapter.addAll(mDataList);
-
-                        mPullRecyclerView.stopLoadMore();
-                        mPullRecyclerView.enableLoadMore(pageSize > 0);
-                        mPullRecyclerView.checkIfShowLoadDoneTip();
-                    }
-                }, 1500);
+//                pageSize--;
+//                // 模拟上拉加载更多网络请求
+//                mPullRecyclerView.postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        mDataList.addAll(Cheeses.getRandomSubList(30));
+//                        mAdapter.notifyDataSetChanged();
+//                        // 或者直接使用BaseRecyclerAdapter中封装的方法
+//                        //mAdapter.addAll(mDataList);
+//
+//                        mPullRecyclerView.stopLoadMore();
+//                        mPullRecyclerView.enableLoadMore(pageSize > 0);
+//                        mPullRecyclerView.checkIfShowLoadDoneTip();
+//                    }
+//                }, 1500);
             }
         });
         mPullRecyclerView.postRefreshing();
