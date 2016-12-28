@@ -6,6 +6,6 @@
 
     <include layout="@layout/widget_tool_bar" />
 
-    <include layout="@layout/widget_pull_recycler_view"/>
+    <include layout="@layout/widget_pull_recycler_view" />
 
 </LinearLayout>

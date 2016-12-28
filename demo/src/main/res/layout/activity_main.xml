@@ -4,12 +4,10 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     android:orientation="vertical"
     tools:context="com.holenzhou.demo.MainActivity">
+
+    <include layout="@layout/widget_tool_bar" />
 
     <Button
         android:id="@+id/btn_common_list"
@@ -17,13 +15,18 @@
         android:text="最基本的下拉刷新和上拉加载列表" />
 
     <Button
-        android:id="@+id/btn_header_list"
-        style="@style/HomeButton"
-        android:text="包含header的列表" />
-
-    <Button
         android:id="@+id/btn_empty_list"
         style="@style/HomeButton"
-        android:text="可设置显示空页面的空列表" />
+        android:text="空列表显示空页面（可设置显示或隐藏header）" />
+
+    <Button
+        android:id="@+id/btn_footer_list"
+        style="@style/HomeButton"
+        android:text="无上拉加载但包含footer的列表" />
+
+    <Button
+        android:id="@+id/btn_grid_list"
+        style="@style/HomeButton"
+        android:text="下拉刷新和上拉加载的grid列表" />
 
 </LinearLayout>

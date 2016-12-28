@@ -29,7 +29,6 @@ public class PullRecyclerView extends FrameLayout implements SwipeRefreshLayout.
     private boolean isLoadMoreEnable;
     private boolean isPullRefreshEnabled = true;
     private boolean isShowLoadDoneTipEnable;
-    private boolean showLoadDoneTip;
     private ILayoutManager layoutManager;
     private BaseRecyclerAdapter adapter;
     private RecyclerView.OnScrollListener mScrollListener;
@@ -109,8 +108,8 @@ public class PullRecyclerView extends FrameLayout implements SwipeRefreshLayout.
         }
     }
 
-    public void checkIfShowLoadDoneTip() {
-        if (showLoadDoneTip && !adapter.isShowLoadDoneTip()) {
+    private void checkIfShowLoadDoneTip() {
+        if (!adapter.isShowLoadDoneTip()) {
             adapter.showLoadDoneTip(true);
         }
     }
@@ -223,8 +222,8 @@ public class PullRecyclerView extends FrameLayout implements SwipeRefreshLayout.
 
     public void enableLoadMore(boolean isLoadMoreEnable) {
         this.isLoadMoreEnable = isLoadMoreEnable;
-        if (isShowLoadDoneTipEnable) {
-            this.showLoadDoneTip = !isLoadMoreEnable;
+        if (!isLoadMoreEnable && isShowLoadDoneTipEnable) {
+            checkIfShowLoadDoneTip();
         }
     }
 

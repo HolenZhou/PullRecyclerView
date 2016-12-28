@@ -4,9 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -14,16 +11,16 @@ import com.bumptech.glide.Glide;
 import com.holenzhou.pullrecyclerview.BaseRecyclerAdapter;
 import com.holenzhou.pullrecyclerview.BaseViewHolder;
 import com.holenzhou.pullrecyclerview.PullRecyclerView;
-import com.holenzhou.pullrecyclerview.layoutmanager.XLinearLayoutManager;
+import com.holenzhou.pullrecyclerview.layoutmanager.XGridLayoutManager;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by holenzhou on 2016/12/26.
+ * Created by holenzhou on 2016/12/28.
  */
 
-public class CommonListActivity extends BaseActivity {
+public class GridListActivity extends BaseActivity {
 
     private PullRecyclerView mPullRecyclerView;
     private List<CheesesItem> mDataList = new ArrayList<>();
@@ -32,7 +29,7 @@ public class CommonListActivity extends BaseActivity {
 
     @Override
     public int getContentView() {
-        return R.layout.activity_common_list;
+        return R.layout.activity_grid_list;
     }
 
     @Override
@@ -41,15 +38,11 @@ public class CommonListActivity extends BaseActivity {
 
         mPullRecyclerView = (PullRecyclerView) findViewById(R.id.pull_recycler_view);
         // 初始化PullRecyclerView
-        mPullRecyclerView.setLayoutManager(new XLinearLayoutManager(this));
-        mAdapter = new CommonListAdapter(this, R.layout.list_item, mDataList);
+        mPullRecyclerView.setLayoutManager(new XGridLayoutManager(this, 3));
+        mAdapter = new GridListAdapter(this, R.layout.grid_item, mDataList);
         mPullRecyclerView.setAdapter(mAdapter);
 
         mPullRecyclerView.setColorSchemeResources(R.color.colorAccent); // 设置下拉刷新的旋转圆圈的颜色
-        DividerItemDecoration itemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
-        itemDecoration.setDrawable(getResources().getDrawable(R.drawable.shape_simple_item_decoration));
-        mPullRecyclerView.addItemDecoration(itemDecoration);
-
         mPullRecyclerView.enablePullRefresh(true); // 开启下拉刷新，默认即为true，可不用设置
         mPullRecyclerView.enableLoadDoneTip(true, R.string.load_done_tip); // 开启数据全部加载完成时的底部提示，默认为false
         mPullRecyclerView.setOnRecyclerRefreshListener(new PullRecyclerView.OnRecyclerRefreshListener() {
@@ -62,8 +55,6 @@ public class CommonListActivity extends BaseActivity {
                         mDataList.clear();
                         mDataList.addAll(Cheeses.getRandomSubList(30));
                         mAdapter.notifyDataSetChanged();
-                        // 或者直接使用BaseRecyclerAdapter中封装的方法
-                        //mAdapter.replaceAll(mDataList);
                         mPullRecyclerView.stopRefresh();
                         mPullRecyclerView.enableLoadMore(pageSize > 0); // 当剩余还有大于0页的数据时，开启上拉加载更多
                     }
@@ -79,9 +70,6 @@ public class CommonListActivity extends BaseActivity {
                     public void run() {
                         mDataList.addAll(Cheeses.getRandomSubList(30));
                         mAdapter.notifyDataSetChanged();
-                        // 或者直接使用BaseRecyclerAdapter中封装的方法
-                        //mAdapter.addAll(mDataList);
-
                         mPullRecyclerView.stopLoadMore();
                         mPullRecyclerView.enableLoadMore(pageSize > 0);
                     }
@@ -94,30 +82,12 @@ public class CommonListActivity extends BaseActivity {
     @Override
     protected void initToolBar() {
         super.initToolBar();
-        toolbar.setTitle("CommonList");
-        toolbar.inflateMenu(R.menu.menu_common_list);
-        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                if (item.getItemId() == R.id.add_header) {
-                    if (item.getTitle().equals(getString(R.string.add_header))) {
-                        mPullRecyclerView.addHeaderView(R.layout.layout_list_header);
-                        mAdapter.notifyDataSetChanged();
-                        item.setTitle(R.string.remove_header);
-                    } else {
-                        mPullRecyclerView.removeHeaderView();
-                        mAdapter.notifyDataSetChanged();
-                        item.setTitle(R.string.add_header);
-                    }
-                }
-                return true;
-            }
-        });
+        toolbar.setTitle("GridList");
     }
 
-    class CommonListAdapter extends BaseRecyclerAdapter<CheesesItem> {
+    class GridListAdapter extends BaseRecyclerAdapter<CheesesItem> {
 
-        public CommonListAdapter(Context context, int layoutResId, List<CheesesItem> data) {
+        public GridListAdapter(Context context, int layoutResId, List<CheesesItem> data) {
             super(context, layoutResId, data);
         }
 
@@ -126,9 +96,8 @@ public class CommonListActivity extends BaseActivity {
             ImageView avatarView = holder.getView(R.id.avatar);
             Glide.with(mContext)
                     .load(item.avatar)
-                    .fitCenter()
                     .into(avatarView);
-            holder.setText(android.R.id.text1, item.name);
+
             holder.getView().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

@@ -20,7 +20,10 @@
         <activity android:name=".CommonListActivity"
             android:screenOrientation="portrait"/>
 
-        <activity android:name=".HeaderListActivity"
+        <activity android:name=".EmptyListActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".GridListActivity"
             android:screenOrientation="portrait"/>
     </application>
 

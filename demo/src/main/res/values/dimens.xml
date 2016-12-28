@@ -4,4 +4,6 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
 
     <dimen name="list_item_avatar_size">40dp</dimen>
+
+    <dimen name="grid_item_size">80dp</dimen>
 </resources>

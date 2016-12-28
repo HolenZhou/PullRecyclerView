@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">PullRecyclerView</string>
     <string name="load_done_tip">已全部加载完成</string>
+
+    <string name="add_header">添加header</string>
+    <string name="remove_header">移除header</string>
+    <string name="set_header">设置header</string>
 </resources>

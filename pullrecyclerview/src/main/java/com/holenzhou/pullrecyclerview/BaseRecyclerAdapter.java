@@ -22,7 +22,6 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseVi
     private static final int VIEW_TYPE_FOOTER = 102;
     private static final int VIEW_TYPE_EMPTY_VIEW = 103;
     private static final int VIEW_TYPE_ITEM = 0;
-    private static final int PAGE_SIZE = 6;
     private boolean isShowLoadMoreFooter = false;
     private boolean isShowLoadDoneTip = false;
     private boolean mHeadAndEmptyEnable = false;
@@ -226,10 +225,6 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseVi
 
     protected View getItemView(int layoutResId, ViewGroup parent) {
         return mLayoutInflater.inflate(layoutResId, parent, false);
-    }
-
-    public static int getPageSize() {
-        return PAGE_SIZE;
     }
 
     private void initItemClickListener(View convertView, final int position) {
