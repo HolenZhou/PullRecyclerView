@@ -59,7 +59,8 @@ public class CommonListActivity extends BaseActivity {
                         // 或者直接使用BaseRecyclerAdapter中封装的方法
                         //mAdapter.replaceAll(mDataList);
                         mPullRecyclerView.stopRefresh();
-                        mPullRecyclerView.enableLoadMore(pageSize > 0); // 当剩余还有大于0页的数据时，开启上拉加载更多
+                        mPullRecyclerView.enableLoadMore(true); // 当剩余还有大于0页的数据时，开启上拉加载更多
+                        pageSize = 2;
                     }
                 }, 1500);
             }
@@ -109,3 +110,4 @@ public class CommonListActivity extends BaseActivity {
         });
     }
 }
+

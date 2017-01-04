@@ -161,22 +161,13 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
      */
     public BaseViewHolder setImageUrl(int viewId, String imageUrl) {
         ImageView view = getView(viewId);
-//        Glide.with(context).load(imageUrl).crossFade().into(view);
         return this;
     }
 
     public BaseViewHolder setImageUrl(int viewId, String imageUrl, int defResourceId) {
         ImageView view = getView(viewId);
-//        Glide.with(context).load(imageUrl).crossFade().placeholder(defResourceId).into(view);
         return this;
     }
-
-//    public BaseViewHolder setImageUrl(int viewId, String imageUrl, int defResourceId, BitmapTransformation... transformations) {
-//        ImageView view = getView(viewId);
-//        Glide.with(context).load(imageUrl).crossFade().placeholder(defResourceId).transform(transformations).into(view);
-//        return this;
-//    }
-
 
     /**
      * Add an action to set the image of an image view. Can be called multiple times.

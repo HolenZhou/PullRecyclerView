@@ -1,8 +1,6 @@
 package com.holenzhou.pullrecyclerview;
 
 import android.content.Context;
-import android.content.res.TypedArray;
-import android.support.annotation.AttrRes;
 import android.support.annotation.ColorRes;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
@@ -16,6 +14,8 @@ import com.holenzhou.pullrecyclerview.layoutmanager.XLinearLayoutManager;
 
 /**
  * Created by holenzhou on 16/5/10.
+ * 基于RecyclerView和SwipeRefreshLayout进行封装，提供下拉刷新、上拉加载更多、添加header和footer、
+ * 设置空页面等多种功能的组合控件
  */
 public class PullRecyclerView extends FrameLayout implements SwipeRefreshLayout.OnRefreshListener {
 
@@ -84,19 +84,6 @@ public class PullRecyclerView extends FrameLayout implements SwipeRefreshLayout.
         });
     }
 
-    public static int resolveColor(Context context, @AttrRes int attr, int fallback) {
-        TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{attr});
-        try {
-            return a.getColor(0, fallback);
-        } finally {
-            a.recycle();
-        }
-    }
-
-    public void setOnScrollListener(RecyclerView.OnScrollListener l) {
-        mScrollListener = l;
-    }
-
     private void checkIfCanLoadMore() {
         if (isLoadMoreEnable && !adapter.isShowLoadMoreFooter()) {
             post(new Runnable() {
@@ -118,6 +105,10 @@ public class PullRecyclerView extends FrameLayout implements SwipeRefreshLayout.
         return layoutManager.isScrollToFooter(adapter.getItemCount());
     }
 
+    public void setOnScrollListener(RecyclerView.OnScrollListener l) {
+        mScrollListener = l;
+    }
+
     public int getLastVisibleItemPosition() {
         return layoutManager.getLastVisibleItemPosition();
     }
@@ -130,6 +121,9 @@ public class PullRecyclerView extends FrameLayout implements SwipeRefreshLayout.
         return recyclerView;
     }
 
+    /**
+     * 触发PullRecyclerView的下拉刷新
+     */
     public void postRefreshing() {
         swipeRefreshLayout.post(new Runnable() {
             @Override
@@ -140,6 +134,10 @@ public class PullRecyclerView extends FrameLayout implements SwipeRefreshLayout.
         });
     }
 
+    /**
+     * 设置adapter，需要使用BaseRecyclerAdapter的子类
+     * @param adapter
+     */
     public void setAdapter(BaseRecyclerAdapter adapter) {
         this.adapter = adapter;
         recyclerView.setAdapter(adapter);
@@ -175,6 +173,10 @@ public class PullRecyclerView extends FrameLayout implements SwipeRefreshLayout.
         recyclerView.setLayoutManager(layoutManager.getLayoutManager());
     }
 
+    /**
+     * 设置下拉刷新和上拉加载事件的监听器
+     * @param listener
+     */
     public void setOnRecyclerRefreshListener(OnRecyclerRefreshListener listener) {
         this.listener = listener;
     }
@@ -193,33 +195,34 @@ public class PullRecyclerView extends FrameLayout implements SwipeRefreshLayout.
         swipeRefreshLayout.setColorSchemeResources(colorResIds);
     }
 
-    public void onRefreshComplete(int action) {
-        switch (action) {
-            case RECYCLER_ACTION_PULL_REFRESH:
-                swipeRefreshLayout.setRefreshing(false);
-                break;
-            case RECYCLER_ACTION_LOAD_MORE:
-                adapter.showLoadMoreFooter(false);
-                break;
-        }
-        mCurrentAction = RECYCLER_ACTION_IDLE;
-    }
-
+    /**
+     * UI更新，结束下拉刷新
+     */
     public void stopRefresh() {
         swipeRefreshLayout.setRefreshing(false);
         mCurrentAction = RECYCLER_ACTION_IDLE;
     }
 
-    public void autoRefresh() {
-        setSelection(0);
-        postRefreshing();
-    }
-
+    /**
+     * UI更新，结束上拉加载更多
+     */
     public void stopLoadMore() {
         adapter.showLoadMoreFooter(false);
         mCurrentAction = RECYCLER_ACTION_IDLE;
     }
 
+    /**
+     * 触发下拉刷新并使列表回到顶部
+     */
+    public void autoRefresh() {
+        setSelection(0);
+        postRefreshing();
+    }
+
+    /**
+     * 设置是否可以上拉加载更多
+     * @param isLoadMoreEnable
+     */
     public void enableLoadMore(boolean isLoadMoreEnable) {
         this.isLoadMoreEnable = isLoadMoreEnable;
         if (!isLoadMoreEnable && isShowLoadDoneTipEnable) {
@@ -227,6 +230,10 @@ public class PullRecyclerView extends FrameLayout implements SwipeRefreshLayout.
         }
     }
 
+    /**
+     * 设置是否可以下拉刷新
+     * @param isPullRefreshEnabled
+     */
     public void enablePullRefresh(boolean isPullRefreshEnabled) {
         this.isPullRefreshEnabled = isPullRefreshEnabled;
         swipeRefreshLayout.setEnabled(isPullRefreshEnabled);
@@ -236,49 +243,94 @@ public class PullRecyclerView extends FrameLayout implements SwipeRefreshLayout.
         return adapter;
     }
 
-    public void addHeaderView(View header) {
-        adapter.addHeaderView(header);
-    }
-
-    public void addHeaderView(int headerRes) {
-        adapter.addHeaderView(LayoutInflater.from(getContext()).inflate(headerRes, this, false));
-    }
-
+    /**
+     * 当数据全部加载完成时，是否在列表底部展示提示语
+     * @param enable
+     * @param tip 提示语，默认提示“已全部加载”
+     */
     public void enableLoadDoneTip(boolean enable, int tip) {
         isShowLoadDoneTipEnable = enable;
         adapter.setLoadDoneTip(tip);
     }
 
+    /**
+     * 添加header
+     * @param header header对应的View
+     */
+    public void addHeaderView(View header) {
+        adapter.addHeaderView(header);
+    }
+
+    /**
+     * 添加header
+     * @param headerRes header对应的布局资源文件
+     */
+    public void addHeaderView(int headerRes) {
+        adapter.addHeaderView(LayoutInflater.from(getContext()).inflate(headerRes, this, false));
+    }
+
+    /**
+     * 移除header
+     */
     public void removeHeaderView() {
         adapter.removeHeaderView();
     }
 
+    /**
+     * 添加footer
+     * @param footer footer对应的View
+     */
     public void addFooterView(View footer) {
         isLoadMoreEnable = false;
         adapter.addFooterView(footer);
     }
 
+    /**
+     * 添加footer
+     * @param footerRes footer对应的布局资源文件
+     */
     public void addFooterView(int footerRes) {
         isLoadMoreEnable = false;
         adapter.addFooterView(LayoutInflater.from(getContext()).inflate(footerRes, this, false));
     }
 
+    /**
+     * 移除footer
+     */
     public void removeFooterView() {
         adapter.removeFooterView();
     }
 
+    /**
+     * 设置列表无数据时需要展示的空页面
+     * @param emptyView 空页面对应的View
+     */
     public void setEmptyView(View emptyView) {
         setEmptyView(false, emptyView);
     }
 
+    /**
+     * 设置列表无数据时需要展示的空页面
+     * @param emptyViewRes 空页面对应的布局资源文件
+     */
     public void setEmptyView(int emptyViewRes) {
         setEmptyView(false, emptyViewRes);
     }
 
+    /**
+     * 设置列表无数据时需要展示的空页面
+     * @param isHeadAndEmpty 当有header时，是否展示空页面，true则展示，false则不展示
+     * @param emptyView 空页面对应的View
+     */
     public void setEmptyView(boolean isHeadAndEmpty, View emptyView) {
         adapter.setEmptyView(isHeadAndEmpty, emptyView);
     }
 
+    /**
+     * 设置列表无数据时需要展示的空页面
+     * @param isHeadAndEmpty 当有header时，是否展示空页面，true则展示，false则不展示
+     * @param emptyViewRes 空页面对应的布局资源文件
+     */
     public void setEmptyView(boolean isHeadAndEmpty, int emptyViewRes) {
         adapter.setEmptyView(isHeadAndEmpty, LayoutInflater.from(getContext()).inflate(emptyViewRes, this, false));
     }
@@ -287,6 +339,9 @@ public class PullRecyclerView extends FrameLayout implements SwipeRefreshLayout.
         recyclerView.scrollToPosition(position);
     }
 
+    /**
+     * 直接刷新，不展示下拉圆圈
+     */
     public void refreshNoPull() {
         listener.onPullRefresh();
     }

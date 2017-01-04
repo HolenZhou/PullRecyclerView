@@ -332,8 +332,8 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseVi
      * @param elem
      */
     public void add(T elem) {
-        mData.add(elem);
-        notifyDataSetChanged();
+        int index = mData.indexOf(elem);
+        add(index, elem);
     }
 
     public void add(int location, T elem) {
