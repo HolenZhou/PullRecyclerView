@@ -88,12 +88,6 @@ public class LoadMoreRecyclerView extends RecyclerView {
         }
     }
 
-    public void checkIfShowLoadDoneTip() {
-        if (!adapter.isShowLoadDoneTip()) {
-            adapter.showLoadDoneTip(true);
-        }
-    }
-
     public void setAdapter(Adapter adapter) {
         super.setAdapter(adapter);
         if (adapter instanceof BaseRecyclerAdapter) {
@@ -139,6 +133,16 @@ public class LoadMoreRecyclerView extends RecyclerView {
         if (!isLoadMoreEnable && isShowLoadDoneTipEnable) {
             checkIfShowLoadDoneTip();
         }
+    }
+
+    private void checkIfShowLoadDoneTip() {
+        if (adapter.getData() == null || adapter.getData().size() == 0) {
+            return;
+        }
+        if (adapter.isShowLoadDoneTip()) {
+            return;
+        }
+        adapter.showLoadDoneTip(true);
     }
 
     public void enableLoadDoneTip(boolean enable, int tip) {
