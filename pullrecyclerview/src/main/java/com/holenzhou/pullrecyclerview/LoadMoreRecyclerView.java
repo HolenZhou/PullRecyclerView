@@ -130,8 +130,15 @@ public class LoadMoreRecyclerView extends RecyclerView {
 
     public void enableLoadMore(boolean isLoadMoreEnable) {
         this.isLoadMoreEnable = isLoadMoreEnable;
-        if (!isLoadMoreEnable && isShowLoadDoneTipEnable) {
-            checkIfShowLoadDoneTip();
+
+        if (isLoadMoreEnable) {
+            if (isShowLoadDoneTipEnable && adapter.isShowLoadDoneTip()) {
+                adapter.showLoadDoneTip(false);
+            }
+        } else {
+            if (isShowLoadDoneTipEnable) {
+                checkIfShowLoadDoneTip();
+            }
         }
     }
 
