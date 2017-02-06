@@ -184,8 +184,6 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseVi
         try {
             if (isShow) {
                 notifyItemInserted(getItemCount());
-            } else {
-                notifyItemRemoved(getItemCount());
             }
         } catch (Exception e) {
             Log.e(TAG, "notify failed");

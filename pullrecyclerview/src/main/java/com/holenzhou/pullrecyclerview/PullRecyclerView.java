@@ -219,8 +219,15 @@ public class PullRecyclerView extends FrameLayout implements SwipeRefreshLayout.
      */
     public void enableLoadMore(boolean isLoadMoreEnable) {
         this.isLoadMoreEnable = isLoadMoreEnable;
-        if (!isLoadMoreEnable && isShowLoadDoneTipEnable) {
-            checkIfShowLoadDoneTip();
+
+        if (isLoadMoreEnable) {
+            if (isShowLoadDoneTipEnable && adapter.isShowLoadDoneTip()) {
+                adapter.showLoadDoneTip(false);
+            }
+        } else {
+            if (isShowLoadDoneTipEnable) {
+                checkIfShowLoadDoneTip();
+            }
         }
     }
 
@@ -250,7 +257,7 @@ public class PullRecyclerView extends FrameLayout implements SwipeRefreshLayout.
     /**
      * 当数据全部加载完成时，是否在列表底部展示提示语
      * @param enable
-     * @param tip 提示语，默认提示“已全部加载”
+     * @param tip 提示语，比如“已全部加载”
      */
     public void enableLoadDoneTip(boolean enable, int tip) {
         isShowLoadDoneTipEnable = enable;
